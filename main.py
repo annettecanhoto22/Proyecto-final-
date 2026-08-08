@@ -1,4 +1,7 @@
 def main():
+
+    lista_municipios = cargar_datos()
+    historial_consultas = []
     
     while True:
         print("\n=== SISTEMA METEOROLÓGICO CARACAS ===\n")
