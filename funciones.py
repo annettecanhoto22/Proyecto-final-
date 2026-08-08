@@ -14,7 +14,7 @@ def cargar_datos():
         objeto_mun = Municipio(nombre_mun)
 
         for loc_info in lista_locs:
-            nombre_loc = loc_info["nombre"]
+            nombre_loc = loc_info["localidad"]
             lat = loc_info["latitud"]
             lon = loc_info["longitud"]
             objeto_loc = Localidad(nombre_loc, lat, lon)
