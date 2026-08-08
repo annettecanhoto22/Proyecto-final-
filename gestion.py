@@ -38,5 +38,9 @@ def consultar_por_municipio(lista_municipios, historial_consultas):
         return
 
     loc_seleccionada = locs_validas[opcion_loc]
-    clima = consultar_clima_tiempo_real()
+    clima = consultar_clima_tiempo_real( mun_seleccionado.nombre, loc_seleccionada.nombre, loc_seleccionada.latitud, loc_seleccionada.longitud)
+
+    if clima is not None:
+        historial_consultas.append(clima)
+        mostrar_detalles_clima(clima)
     
