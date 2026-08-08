@@ -52,3 +52,24 @@ class Municipio(EntidadGeografica):
 
     def __len__(self):
         return len(self.localidades)
+
+class DatoMeteorologico:
+    
+    def __init__(self, temperatura, humedad, viento):
+        self.temperatura = temperatura
+        self.humedad = humedad
+        self.viento = viento
+
+    def __str__(self):
+        return f"Temp: {self.temperatura} °C | Humedad: {self.humedad}% | Viento: {self.viento} km/h"
+
+class ClimaActual(DatoMeteorologico):
+   
+    def __init__(self, nombre_municipio, nombre_localidad, lat, lon, temperatura, humedad, viento, descripcion):
+        super().__init__(temperatura, humedad, viento)
+        self.nombre_municipio = nombre_municipio
+        self.nombre_localidad = nombre_localidad
+        self.lat = lat
+        self.lon = lon
+        self.descripcion = descripcion
+
