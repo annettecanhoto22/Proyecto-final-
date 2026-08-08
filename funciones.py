@@ -22,3 +22,20 @@ def cargar_datos():
         lista_municipios.append(objeto_mun)
 
     return lista_municipios
+    
+def generar_reporte_carga(lista_municipios):
+    
+    print("\n=== REPORTE DE CARGA DE LOCALIDADES ===\n")
+
+    for mun in lista_municipios:
+        total = len(mun)
+        con_coord = mun.contar_con_coordenadas()
+        sin_coord = mun.contar_sin_coordenadas()
+        porcentaje = mun.porcentaje_con_coordenadas()
+
+        print(f"Municipio: {mun.nombre}")
+        print(f"  - Cantidad de localidades cargadas: {total}")
+        print(f"  - Con coordenadas geográficas: {con_coord}")
+        print(f"  - Sin coordenadas geográficas: {sin_coord}")
+        print(f"  - Porcentaje con coordenadas: {porcentaje:.2f}%")
+        print("-----------------------------------------------------")
