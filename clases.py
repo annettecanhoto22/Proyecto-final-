@@ -29,7 +29,7 @@ class Municipio(EntidadGeografica):
         super().__init__(nombre)
         self.localidades = []
 
-  def agregar_localidad(self, localidad):
+    def agregar_localidad(self, localidad):
         self.localidades.append(localidad)
 
     def obtener_localidades_con_coordenadas(self):
