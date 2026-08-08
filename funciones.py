@@ -39,3 +39,46 @@ def generar_reporte_carga(lista_municipios):
         print(f"  - Sin coordenadas geográficas: {sin_coord}")
         print(f"  - Porcentaje con coordenadas: {porcentaje:.2f}%")
         print("-----------------------------------------------------")
+        
+def interpretar_codigo_clima(codigo):
+   
+    if codigo == 0:
+        return "Despejado"
+    elif 1 <= codigo <= 3:
+        return "Parcialmente nublado"
+    elif 45 <= codigo <= 48:
+        return "Neblina"
+    elif 51 <= codigo <= 67:
+        return "Lluvia moderada"
+    elif 71 <= codigo <= 77:
+        return "Nieve"
+    elif codigo >= 95:
+        return "Tormenta eléctrica"
+    else:
+        return "Nublado / Variable"
+
+def consultar_clima_tiempo_real(nombre_municipio, nombre_localidad, lat, lon):
+  
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code"
+
+    try:
+        respuesta = requests.get(url)
+    except Exception as e:
+        print(f"Ocurrió un error de red al consultar el clima: {e}")
+        return None
+
+    if respuesta.status_code != 200:
+        print("Error al conectar con la API de Open-Meteo.")
+        return None
+
+    datos = respuesta.json()
+    actual = datos.get("current", {})
+    temp = actual.get("temperature_2m")
+    humedad = actual.get("relative_humidity_2m")
+    viento = actual.get("wind_speed_10m")
+    codigo = actual.get("weather_code", 0)
+    descripcion = interpretar_codigo_clima(codigo)
+
+    if temp is None:
+        print("La API no devolvió datos de temperatura para esta ubicación.")
+        return None
