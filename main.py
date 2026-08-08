@@ -1,7 +1,12 @@
+from funciones import cargar_datos, generar_reporte_carga
+from gestion import consultar_por_municipio
+
 def main():
 
     lista_municipios = cargar_datos()
     historial_consultas = []
+
+    generar_reporte_carga(lista_municipios)
     
     while True:
         print("\n=== SISTEMA METEOROLÓGICO CARACAS ===\n")
