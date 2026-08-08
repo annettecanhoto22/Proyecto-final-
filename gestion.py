@@ -43,4 +43,46 @@ def consultar_por_municipio(lista_municipios, historial_consultas):
     if clima is not None:
         historial_consultas.append(clima)
         mostrar_detalles_clima(clima)
+
+def consultar_por_busqueda_directa (lista_municipios, historial_consultas):
+
+    busqueda = input("\nIngrese el nombre (o parte del nombre) de la localidad: ").strip().lower()
+
+    coincidencias = []
+    municipios_coincidencia = []
+
+    for mun in lista_municipios:
+        locs_validas = mun.obtener_localidades_con_coordenadas()
+        for loc in locs_validas:
+            if busqueda in loc.nombre.lower():
+                coincidencias.append(loc)
+                municipios_coincidencia.append(mun.nombre)
+
+    if not coincidencias:
+        print("No se encontraron localidades con coordenadas válidas que coincidan con la búsqueda.")
+        return
+
+    print("\n--- COINCIDENCIAS ENCONTRADAS ---")
+    for idx, loc in enumerate(coincidencias, start=1):
+        print(f"{idx}. {loc.nombre} (Municipio: {municipios_coincidencia[idx - 1]})")
+
+    try:
+        seleccion = int(input("Seleccione el número de la localidad: ")) - 1
+    except ValueError:
+        print("Entrada inválida. Debe ingresar un número.")
+        return
+
+    if seleccion < 0 or seleccion >= len(coincidencias):
+        print("Selección inválida.")
+        return
+
+    loc_elegida = coincidencias[seleccion]
+    mun_elegido = municipios_coincidencia[seleccion]
+
+    clima = consultar_clima_tiempo_real(mun_elegido, loc_elegida.nombre, loc_elegida.latitud, loc_elegida.longitud)
+
+    if clima is not None:
+        historial_consultas.append(clima)
+        mostrar_detalles_clima(clima)
+
     
