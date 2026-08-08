@@ -82,3 +82,18 @@ def consultar_clima_tiempo_real(nombre_municipio, nombre_localidad, lat, lon):
     if temp is None:
         print("La API no devolvió datos de temperatura para esta ubicación.")
         return None
+
+    clima = ClimaActual(nombre_municipio, nombre_localidad, lat, lon, temp, humedad, viento, descripcion)
+    return clima
+
+def mostrar_detalles_clima(clima):
+
+    print("\n   ===   DETALLES METEOROLÓGICOS   ===\n")
+    print(f" i.   Nombre del Municipio: {clima.nombre_municipio}")
+    print(f"      Nombre de la Localidad: {clima.nombre_localidad}")
+    print(f" ii.  Coordenadas: Lat {clima.lat}, Lon {clima.lon}")
+    print(f" iii. Temperatura actual: {clima.temperatura} °C")
+    print(f" iv.  Humedad relativa: {clima.humedad} %")
+    print(f" v.   Velocidad del viento: {clima.viento} km/h")
+    print(f" vi.  Código/Estado del tiempo: {clima.descripcion}")
+    print('-----------------------------------------------------')
