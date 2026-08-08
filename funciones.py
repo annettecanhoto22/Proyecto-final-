@@ -1,5 +1,6 @@
 import json
-from clases import Localidad, Municipio
+import requests
+from clases import Localidad, Municipio, ClimaActual
 
 def cargar_datos():
     
