@@ -21,7 +21,7 @@ def main():
         if opcion == "1":
             consultar_por_municipio(lista_municipios, historial_consultas)
         elif opcion == "2":
-            pass
+            consultar_por_busqueda_directa(lista_municipios, historial_consultas)
         elif opcion == "3":
             pass
         elif opcion == "4":
