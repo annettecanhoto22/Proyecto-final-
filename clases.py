@@ -28,3 +28,27 @@ class Municipio(EntidadGeografica):
     def __init__(self, nombre):
         super().__init__(nombre)
         self.localidades = []
+
+  def agregar_localidad(self, localidad):
+        self.localidades.append(localidad)
+
+    def obtener_localidades_con_coordenadas(self):
+        lista_validas = []
+        for loc in self.localidades:
+            if loc.tiene_coordenadas():
+                lista_validas.append(loc)
+        return lista_validas
+
+    def contar_con_coordenadas(self):
+        return len(self.obtener_localidades_con_coordenadas())
+
+    def contar_sin_coordenadas(self):
+        return len(self.localidades) - self.contar_con_coordenadas()
+
+    def porcentaje_con_coordenadas(self):
+        if len(self.localidades) == 0:
+            return 0.0
+        return (self.contar_con_coordenadas() / len(self.localidades)) * 100
+
+    def __len__(self):
+        return len(self.localidades)
