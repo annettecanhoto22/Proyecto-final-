@@ -28,7 +28,7 @@ def consultar_por_municipio(lista_municipios, historial_consultas):
         print(f"{j}. {loc}")
 
     try:
-        opcion_loc = int(input("Ingrese el número de la localidad: ")) - 1
+        opcion_loc = int(input("\nIngrese el número de la localidad: ")) - 1
     except ValueError:
         print("Entrada inválida. Debe ingresar un número.")
         return
