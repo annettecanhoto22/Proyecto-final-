@@ -23,7 +23,7 @@ def main():
         elif opcion == "2":
             consultar_por_busqueda_directa(lista_municipios, historial_consultas)
         elif opcion == "3":
-            pass
+            mostrar_estadisticas(lista_municipios, historial_consultas)
         elif opcion == "4":
             pass
         elif opcion == "5":
