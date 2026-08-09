@@ -73,3 +73,69 @@ class ClimaActual(DatoMeteorologico):
         self.lon = lon
         self.descripcion = descripcion
 
+class RegistroDiario(DatoMeteorologico):
+  
+    def __init__(self, fecha, temperatura, humedad, viento, precipitacion):
+        super().__init__(temperatura, humedad, viento)
+        self.fecha = fecha
+        self.precipitacion = precipitacion
+
+    def obtener_anio(self):
+        return self.fecha.split("-")[0]
+
+    def obtener_mes(self):
+        return self.fecha.split("-")[1]
+
+
+class ResumenPeriodo:
+    def __init__(self, etiqueta):
+        self.etiqueta = etiqueta
+        self.temperaturas = []
+        self.humedades = []
+        self.vientos = []
+        self.precipitaciones = []
+
+    def agregar_registro(self, registro):
+
+        if registro.temperatura is not None:
+            self.temperaturas.append(registro.temperatura)
+        if registro.humedad is not None:
+            self.humedades.append(registro.humedad)
+        if registro.viento is not None:
+            self.vientos.append(registro.viento)
+        if registro.precipitacion is not None:
+            self.precipitaciones.append(registro.precipitacion)
+
+    def promedio_temperatura(self):
+
+        if len(self.temperaturas) == 0:
+            return 0.0
+        return sum(self.temperaturas) / len(self.temperaturas)
+
+    def promedio_humedad(self):
+
+        if len(self.humedades) == 0:
+            return 0.0
+        return sum(self.humedades) / len(self.humedades)
+
+    def promedio_viento(self):
+        if len(self.vientos) == 0:
+            return 0.0
+        return sum(self.vientos) / len(self.vientos)
+
+    def precipitacion_total(self):
+        return sum(self.precipitaciones)
+
+
+class ResumenMensual(ResumenPeriodo):
+    def __init__(self, anio, mes):
+        etiqueta = f"{anio}-{mes}"
+        super().__init__(etiqueta)
+        self.anio = anio
+        self.mes = mes
+
+
+class ResumenAnual(ResumenPeriodo):
+    def __init__(self, anio):
+        super().__init__(anio)
+        self.anio = anio
