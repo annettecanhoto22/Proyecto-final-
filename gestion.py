@@ -85,7 +85,7 @@ def consultar_por_busqueda_directa (lista_municipios, historial_consultas):
         historial_consultas.append(clima)
         mostrar_detalles_clima(clima)
 
-    def mostrar_estadisticas(lista_municipios, historial_consultas):
+def mostrar_estadisticas(lista_municipios, historial_consultas):
         
     print("\n======MÓDULO DE ESTADÍSTICAS========\n")
 
