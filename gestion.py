@@ -85,4 +85,42 @@ def consultar_por_busqueda_directa (lista_municipios, historial_consultas):
         historial_consultas.append(clima)
         mostrar_detalles_clima(clima)
 
-    
+    def mostrar_estadisticas(lista_municipios, historial_consultas):
+        
+    print("\n======MÓDULO DE ESTADÍSTICAS========\n")
+
+    if not historial_consultas:
+        print("a) Ranking de Temperatura: No hay consultas registradas en la sesión.")
+    else:
+        mas_calida = historial_consultas[0]
+        mas_fria = historial_consultas[0]
+        for consulta in historial_consultas:
+            if consulta.temperatura > mas_calida.temperatura:
+                mas_calida = consulta
+            if consulta.temperatura < mas_fria.temperatura:
+                mas_fria = consulta
+
+        print("a) Ranking de Temperatura (según la sesión):")
+        print(f"   - Localidad más cálida: {mas_calida.nombre_localidad} ({mas_calida.nombre_municipio}) con {mas_calida.temperatura} °C")
+        print(f"   - Localidad más fría: {mas_fria.nombre_localidad} ({mas_fria.nombre_municipio}) con {mas_fria.temperatura} °C")
+
+    print("\nb) Cobertura Geográfica - Localidades sin coordenadas registradas:")
+    for mun in lista_municipios:
+        print(f"   * Municipio: {mun.nombre}")
+        hay_sin_coordenadas = False
+        for loc in mun.localidades:
+            if not loc.tiene_coordenadas():
+                print(f"     - {loc.nombre}")
+                hay_sin_coordenadas = True
+        if not hay_sin_coordenadas:
+            print("     (Todas las localidades tienen coordenadas)")
+
+    if not historial_consultas:
+        print("\nc) Promedio General: No hay datos para calcular.")
+    else:
+        suma_temp = 0
+        for consulta in historial_consultas:
+            suma_temp += consulta.temperatura
+        promedio = suma_temp / len(historial_consultas)
+        print(f"\nc) Promedio General de Temperatura (sesión activa): {promedio:.2f} °C")
+    print("========================================")
