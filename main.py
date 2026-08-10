@@ -2,7 +2,8 @@ from funciones import cargar_datos, generar_reporte_carga
 from gestion import (consultar_por_municipio, consultar_por_busqueda_directa, mostrar_estadisticas, consultar_historico)
 
 def main():
-
+ """ Función principal: carga los datos, muestra el reporte inicial y despliega el menú del sistema hasta que el usuario decida salir."""
+    
     lista_municipios = cargar_datos()
     historial_consultas = []
 
