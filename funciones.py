@@ -45,16 +45,54 @@ def interpretar_codigo_clima(codigo):
    
     if codigo == 0:
         return "Despejado"
-    elif 1 <= codigo <= 3:
+    elif codigo == 1:
+        return "Mayormente despejado"
+    elif codigo == 2:
         return "Parcialmente nublado"
-    elif 45 <= codigo <= 48:
-        return "Neblina"
-    elif 51 <= codigo <= 67:
-        return "Lluvia moderada"
-    elif 71 <= codigo <= 77:
-        return "Nieve"
-    elif codigo >= 95:
-        return "Tormenta eléctrica"
+    elif codigo == 3:
+        return "Cubierto"
+    elif codigo == 45:
+        return "Niebla"
+    elif codigo == 48:
+        return "Deposito de escarcha"
+    elif codigo == 51:
+        return "Llovizna de intensidad ligera"
+    elif codigo == 53:
+        return "Llovizna de intensidad moderada"
+    elif codigo == 55:
+        return "Llovizna de intensidad densa"
+    elif codigo == 56:
+        return "Llovizna helada intensidad ligera"
+    elif codigo == 57:
+        return "Llovizna helada intensidad densa"
+    elif codigo == 61:
+        return "Lluvias de intensidad leve"
+    elif codigo == 63:
+        return "Lluvias de intensidad moderada"
+    elif codigo == 65:
+        return "Lluvias de intensidad fuerte"
+    elif codigo == 66:
+        return "Lluvia helada: intensidad ligera"
+    elif codigo == 67:
+        return "Lluvia helada: intensidad fuerte"
+    elif codigo == 71:
+        return "Nevadas de intensidad leve"
+    elif codigo == 73:
+        return "Nevadas de intensidad moderada"
+    elif codigo == 75:
+        return "Nevadas de intensidad fuerte"
+    elif codigo == 77:
+        return "Granos de nieve"
+    elif codigo == 80:
+        return "Lluvias leves"
+    elif codigo == 81:
+        return "Lluvias moderadas"
+    elif codigo == 82:
+        return "Lluvias violentas"
+    elif codigo == 85:
+        return "Lluvias de nieve leves"
+    elif codigo == 86:
+        return "Lluvias de nieve fuertes"
     else:
         return "Nublado / Variable"
 
