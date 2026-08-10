@@ -181,7 +181,7 @@ def consultar_historico(lista_municipios):
         return
 
     loc_sel = locs_validas[op_loc]
-    print ("\n 
+    print("\nIngrese una fecha desde 1940")
     fecha_inicio = input("Ingrese fecha de inicio (AAAA-MM-DD): ").strip()
     fecha_fin = input("Ingrese fecha de fin (AAAA-MM-DD): ").strip()
 
@@ -218,4 +218,98 @@ def consultar_historico(lista_municipios):
     for k in range(len(tiempos)):
         registro = RegistroDiario(tiempos[k], temps[k], humedades[k], vientos[k], precipitaciones[k])
         lista_registros.append(registro)
+
+    lista_resumenes_mensuales = []
+    lista_resumenes_anuales = []
+
+    for registro in lista_registros:
+        anio = registro.obtener_anio()
+        mes = registro.obtener_mes()
+
+        resumen_mes = buscar_resumen_mensual(lista_resumenes_mensuales, anio, mes)
+        if resumen_mes is None:
+            resumen_mes = ResumenMensual(anio, mes)
+            lista_resumenes_mensuales.append(resumen_mes)
+        resumen_mes.agregar_registro(registro)
+
+        resumen_anio = buscar_resumen_anual(lista_resumenes_anuales, anio)
+        if resumen_anio is None:
+            resumen_anio = ResumenAnual(anio)
+            lista_resumenes_anuales.append(resumen_anio)
+        resumen_anio.agregar_registro(registro)
+
+    print(f"\n--- RESUMEN MENSUAL PARA {loc_sel.nombre.upper()} ---")
+    for resumen_mes in lista_resumenes_mensuales:
+        print(f"\n  Periodo {resumen_mes.etiqueta}:")
+        print(f"    i.   Temperatura promedio: {resumen_mes.promedio_temperatura():.2f} °C")
+        print(f"    ii.  Humedad relativa promedio: {resumen_mes.promedio_humedad():.2f} %")
+        print(f"    iii. Precipitación acumulada: {resumen_mes.precipitacion_total():.2f} mm")
+        print(f"    iv.  Velocidad del viento promedio: {resumen_mes.promedio_viento():.2f} km/h")
+
+    resumen_total = ResumenPeriodo(f"{fecha_inicio} a {fecha_fin}")
+    for registro in lista_registros:
+        resumen_total.agregar_registro(registro)
+
+    print(f"\n--- PROMEDIOS GENERALES DEL PERIODO ({resumen_total.etiqueta}) ---")
+    print(f"  - Temperatura promedio: {resumen_total.promedio_temperatura():.2f} °C")
+    print(f"  - Humedad relativa promedio: {resumen_total.promedio_humedad():.2f} %")
+    print(f"  - Velocidad del viento promedio: {resumen_total.promedio_viento():.2f} km/h")
+    print(f"  - Precipitación acumulada total: {resumen_total.precipitacion_total():.2f} mm")
+
+    if lista_resumenes_anuales:
+        anio_caluroso = lista_resumenes_anuales[0]
+        anio_fresco = lista_resumenes_anuales[0]
+        anio_lluvioso = lista_resumenes_anuales[0]
+        anio_humedo = lista_resumenes_anuales[0]
+
+        for resumen_anio in lista_resumenes_anuales:
+            if resumen_anio.promedio_temperatura() > anio_caluroso.promedio_temperatura():
+                anio_caluroso = resumen_anio
+            if resumen_anio.promedio_temperatura() < anio_fresco.promedio_temperatura():
+                anio_fresco = resumen_anio
+            if resumen_anio.precipitacion_total() > anio_lluvioso.precipitacion_total():
+                anio_lluvioso = resumen_anio
+            if resumen_anio.promedio_humedad() > anio_humedo.promedio_humedad():
+                anio_humedo = resumen_anio
+
+        print(f"\n  - Año más caluroso: {anio_caluroso.anio}")
+        print(f"  - Año más fresco: {anio_fresco.anio}")
+        print(f"  - Año con mayor precipitación: {anio_lluvioso.anio}")
+        print(f"  - Año con mayor humedad relativa: {anio_humedo.anio}")
+
+        print("\nGenerando gráfico comparativo...")
+        anios_lista = []
+        temp_por_anio = []
+        hum_por_anio = []
+        prec_por_anio = []
+        viento_por_anio = []
+
+        for resumen_anio in lista_resumenes_anuales:
+            anios_lista.append(resumen_anio.anio)
+            temp_por_anio.append(resumen_anio.promedio_temperatura())
+            hum_por_anio.append(resumen_anio.promedio_humedad())
+            prec_por_anio.append(resumen_anio.precipitacion_total())
+            viento_por_anio.append(resumen_anio.promedio_viento())
+
+        figura, graficos = plt.subplots(2, 2, figsize=(11, 7))
+        figura.suptitle(f"Evolución Climática Anual - {loc_sel.nombre}")
+
+        graficos[0, 0].plot(anios_lista, temp_por_anio, marker='o', color='tab:red')
+        graficos[0, 0].set_title("Temperatura promedio (°C)")
+        graficos[0, 0].grid(True)
+
+        graficos[0, 1].plot(anios_lista, hum_por_anio, marker='o', color='tab:blue')
+        graficos[0, 1].set_title("Humedad relativa promedio (%)")
+        graficos[0, 1].grid(True)
+
+        graficos[1, 0].plot(anios_lista, prec_por_anio, marker='o', color='tab:green')
+        graficos[1, 0].set_title("Precipitación acumulada (mm)")
+        graficos[1, 0].grid(True)
+
+        graficos[1, 1].plot(anios_lista, viento_por_anio, marker='o', color='tab:orange')
+        graficos[1, 1].set_title("Viento promedio (km/h)")
+        graficos[1, 1].grid(True)
+
+        plt.tight_layout()
+        plt.show()
 
