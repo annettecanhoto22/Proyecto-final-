@@ -1,4 +1,5 @@
 import requests
+import matplotlib.pyplot as plt
 from clases import RegistroDiario, ResumenPeriodo, ResumenMensual, ResumenAnual
 from funciones import consultar_clima_tiempo_real, mostrar_detalles_clima
 
