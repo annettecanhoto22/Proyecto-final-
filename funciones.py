@@ -3,7 +3,7 @@ import requests
 from clases import Localidad, Municipio, ClimaActual
 
 def cargar_datos():
-"""Lee el archivo zonas_caracas.json y transforma su estructura en una lista de objetos Municipio, cada uno con su respectiva lista de objetos Localidad"""
+    """Lee el archivo zonas_caracas.json y transforma su estructura en una lista de objetos Municipio, cada uno con su respectiva lista de objetos Localidad"""
 
     archivo = open("zonas_caracas.json", "r", encoding="utf-8")
     contenido = json.load(archivo)
@@ -26,7 +26,7 @@ def cargar_datos():
     return lista_municipios
     
 def generar_reporte_carga(lista_municipios):
-""" Muestra en pantalla el reporte inicial de carga por cada municipio, apoyándose en los métodos que la propia clase Municipio ofrece"""
+    """ Muestra en pantalla el reporte inicial de carga por cada municipio, apoyándose en los métodos que la propia clase Municipio ofrece"""
     
     print("\n=== REPORTE DE CARGA DE LOCALIDADES ===\n")
 
@@ -44,7 +44,7 @@ def generar_reporte_carga(lista_municipios):
         print("-----------------------------------------------------")
         
 def interpretar_codigo_clima(codigo):
-""" Traduce el código numérico del clima de Open-Meteo a una descripción en texto """
+    """ Traduce el código numérico del clima de Open-Meteo a una descripción en texto """
    
     if codigo == 0:
         return "Despejado"
@@ -100,7 +100,7 @@ def interpretar_codigo_clima(codigo):
         return "Nublado / Variable"
 
 def consultar_clima_tiempo_real(nombre_municipio, nombre_localidad, lat, lon):
-""" Consulta en tiempo real la API de Open-Meteo enviando latitud y longitud, y arma un objeto ClimaActual con la respuesta obtenida."""
+    """ Consulta en tiempo real la API de Open-Meteo enviando latitud y longitud, y arma un objeto ClimaActual con la respuesta obtenida."""
 
     url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,weather_code"
 
@@ -130,7 +130,7 @@ def consultar_clima_tiempo_real(nombre_municipio, nombre_localidad, lat, lon):
     return clima
 
 def mostrar_detalles_clima(clima):
-""" Muestra en la pantalla los detalles meteorológicos de una consulta en tiempo real"""
+    """ Muestra en la pantalla los detalles meteorológicos de una consulta en tiempo real"""
 
     print("\n   ===   DETALLES METEOROLÓGICOS   ===\n")
     print(f" i.   Nombre del Municipio: {clima.nombre_municipio}")
