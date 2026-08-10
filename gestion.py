@@ -219,7 +219,7 @@ def consultar_historico(lista_municipios):
         print("No se encontraron registros para el rango de fechas indicado.")
         return
 
-     """Cambiamos la respuesta de la API en una lista de objetos de tipo RegistroDiario"""
+    """Cambiamos la respuesta de la API en una lista de objetos de tipo RegistroDiario"""
     lista_registros = []
     for k in range(len(tiempos)):
         registro = RegistroDiario(tiempos[k], temps[k], humedades[k], vientos[k], precipitaciones[k])
