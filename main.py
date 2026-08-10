@@ -1,5 +1,5 @@
 from funciones import cargar_datos, generar_reporte_carga
-from gestion import consultar_por_municipio
+from gestion import (consultar_por_municipio, consultar_por_busqueda_directa, mostrar_estadisticas, consultar_historico)
 
 def main():
 
@@ -25,7 +25,7 @@ def main():
         elif opcion == "3":
             mostrar_estadisticas(lista_municipios, historial_consultas)
         elif opcion == "4":
-            pass
+            consultar_historico(lista_municipios)
         elif opcion == "5":
             print("\n¡Gracias por utilizar MeteoCaracas! Hasta luego.")
             break
