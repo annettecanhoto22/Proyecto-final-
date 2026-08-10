@@ -168,7 +168,8 @@ def consultar_historico(lista_municipios):
     if not locs_validas:
         print("No hay localidades con coordenadas en este municipio.")
         return
-
+        
+    print("Seleccione una localidad:")
     for j, loc in enumerate(locs_validas, start=1):
         print(f"{j}. {loc.nombre}")
 
