@@ -1,4 +1,7 @@
+import requests
+from clases import RegistroDiario, ResumenPeriodo, ResumenMensual, ResumenAnual
 from funciones import consultar_clima_tiempo_real, mostrar_detalles_clima
+
 
 def consultar_por_municipio(lista_municipios, historial_consultas):
     
@@ -124,3 +127,95 @@ def mostrar_estadisticas(lista_municipios, historial_consultas):
         promedio = suma_temp / len(historial_consultas)
         print(f"\nc) Promedio General de Temperatura (sesión activa): {promedio:.2f} °C")
     print("========================================")
+
+def buscar_resumen_mensual(lista_resumenes, anio, mes):
+    for resumen in lista_resumenes:
+        if resumen.anio == anio and resumen.mes == mes:
+            return resumen
+    return None
+
+
+def buscar_resumen_anual(lista_resumenes, anio):
+    for resumen in lista_resumenes:
+        if resumen.anio == anio:
+            return resumen
+    return None
+
+
+def consultar_historico(lista_municipios):
+
+    print("\n--- CONSULTA HISTORICA ---")
+
+    print("Seleccione un municipio:")
+    for i, mun in enumerate(lista_municipios, start=1):
+        print(f"{i}. {mun.nombre}")
+
+    try:
+        op_mun = int(input("Municipio: ")) - 1
+    except ValueError:
+        print("Entrada inválida.")
+        return
+
+    if op_mun < 0 or op_mun >= len(lista_municipios):
+        print("Municipio inválido.")
+        return
+
+    mun_sel = lista_municipios[op_mun]
+    locs_validas = mun_sel.obtener_localidades_con_coordenadas()
+
+    if not locs_validas:
+        print("No hay localidades con coordenadas en este municipio.")
+        return
+
+    for j, loc in enumerate(locs_validas, start=1):
+        print(f"{j}. {loc.nombre}")
+
+    try:
+        op_loc = int(input("Localidad: ")) - 1
+    except ValueError:
+        print("Entrada inválida.")
+        return
+
+    if op_loc < 0 or op_loc >= len(locs_validas):
+        print("Localidad inválida.")
+        return
+
+    loc_sel = locs_validas[op_loc]
+    print ("\n 
+    fecha_inicio = input("Ingrese fecha de inicio (AAAA-MM-DD): ").strip()
+    fecha_fin = input("Ingrese fecha de fin (AAAA-MM-DD): ").strip()
+
+    url = (
+        f"https://archive-api.open-meteo.com/v1/archive?latitude={loc_sel.latitud}"
+        f"&longitude={loc_sel.longitud}&start_date={fecha_inicio}&end_date={fecha_fin}"
+        f"&daily=temperature_2m_mean,relative_humidity_2m_mean,precipitation_sum,wind_speed_10m_max"
+    )
+
+    try:
+        print("Consultando datos históricos...")
+        resp = requests.get(url)
+    except Exception as e:
+        print(f"Ocurrió un error de red: {e}")
+        return
+
+    if resp.status_code != 200:
+        print("Error al obtener los datos históricos de la API.")
+        return
+
+    data = resp.json()
+    daily = data.get("daily", {})
+    tiempos = daily.get("time", [])
+    temps = daily.get("temperature_2m_mean", [])
+    humedades = daily.get("relative_humidity_2m_mean", [])
+    precipitaciones = daily.get("precipitation_sum", [])
+    vientos = daily.get("wind_speed_10m_max", [])
+
+    if not tiempos:
+        print("No se encontraron registros para el rango de fechas indicado.")
+        return
+        
+    lista_registros = []
+    for k in range(len(tiempos)):
+        registro = RegistroDiario(tiempos[k], temps[k], humedades[k], vientos[k], precipitaciones[k])
+        lista_registros.append(registro)
+
