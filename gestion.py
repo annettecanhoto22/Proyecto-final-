@@ -145,7 +145,7 @@ def buscar_resumen_anual(lista_resumenes, anio):
 
 def consultar_historico(lista_municipios):
 
-    print("\n--- CONSULTA HISTORICA ---")
+    print("\n--- CONSULTA HISTORICA ---\n")
 
     print("Seleccione un municipio:")
     for i, mun in enumerate(lista_municipios, start=1):
@@ -153,6 +153,7 @@ def consultar_historico(lista_municipios):
 
     try:
         op_mun = int(input("Municipio: ")) - 1
+        print("")
     except ValueError:
         print("Entrada inválida.")
         return
