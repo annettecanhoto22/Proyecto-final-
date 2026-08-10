@@ -5,7 +5,7 @@ from funciones import consultar_clima_tiempo_real, mostrar_detalles_clima
 
 
 def consultar_por_municipio(lista_municipios, historial_consultas):
-    
+    """ Permite consultar el clima seleccionando primero el municipio y luego la localidad"""    
     print("\n--- SELECCIONE UN MUNICIPIO ---")
     for i, mun in enumerate(lista_municipios, start=1):
         print(f"{i}. {mun.nombre}")
@@ -49,7 +49,7 @@ def consultar_por_municipio(lista_municipios, historial_consultas):
         mostrar_detalles_clima(clima)
 
 def consultar_por_busqueda_directa (lista_municipios, historial_consultas):
-
+    """Permite buscar una localidad directamente escribiendo su nombre o parte de él"""
     busqueda = input("\nIngrese el nombre (o parte del nombre) de la localidad: ").strip().lower()
 
     coincidencias = []
@@ -90,7 +90,7 @@ def consultar_por_busqueda_directa (lista_municipios, historial_consultas):
         mostrar_detalles_clima(clima)
 
 def mostrar_estadisticas(lista_municipios, historial_consultas):
-        
+    """Muestra el módulo de estadísticas: Ranking de temperatura, cobertura geográfica y promedio general"""       
     print("\n======MÓDULO DE ESTADÍSTICAS========\n")
 
     if not historial_consultas:
@@ -130,6 +130,7 @@ def mostrar_estadisticas(lista_municipios, historial_consultas):
     print("========================================")
 
 def buscar_resumen_mensual(lista_resumenes, anio, mes):
+    """Busca en la lista un ResumenMensual que corresponda al año y mes indicados"""    
     for resumen in lista_resumenes:
         if resumen.anio == anio and resumen.mes == mes:
             return resumen
@@ -137,6 +138,7 @@ def buscar_resumen_mensual(lista_resumenes, anio, mes):
 
 
 def buscar_resumen_anual(lista_resumenes, anio):
+    """Busca en la lista un ResumenAnual que corresponda al año indicado"""    
     for resumen in lista_resumenes:
         if resumen.anio == anio:
             return resumen
@@ -144,7 +146,7 @@ def buscar_resumen_anual(lista_resumenes, anio):
 
 
 def consultar_historico(lista_municipios):
-
+    """Consulta por período de tiempo, muestra promedios mensuales y anuales, el año más caluroso/fresco/lluvioso/húmedo, y un gráfico comparativo de la evolución de cada magnitud por año"""
     print("\n--- CONSULTA HISTORICA ---\n")
 
     print("Seleccione un municipio:")
