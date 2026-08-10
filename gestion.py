@@ -219,13 +219,13 @@ def consultar_historico(lista_municipios):
         print("No se encontraron registros para el rango de fechas indicado.")
         return
 
- """Cambiamos la respuesta de la API en una lista de objetos de tipo RegistroDiario"""
+     """Cambiamos la respuesta de la API en una lista de objetos de tipo RegistroDiario"""
     lista_registros = []
     for k in range(len(tiempos)):
         registro = RegistroDiario(tiempos[k], temps[k], humedades[k], vientos[k], precipitaciones[k])
         lista_registros.append(registro)
 
-"""Agrupamos los registros diarios en listas de objetos de resúmenes mensuales y anuales"""
+    """Agrupamos los registros diarios en listas de objetos de resúmenes mensuales y anuales"""
     lista_resumenes_mensuales = []
     lista_resumenes_anuales = []
 
@@ -245,7 +245,7 @@ def consultar_historico(lista_municipios):
             lista_resumenes_anuales.append(resumen_anio)
         resumen_anio.agregar_registro(registro)
 
-""" Mostramos en pantalla los reportes mes a mes del periodo seleccionado """
+    """ Mostramos en pantalla los reportes mes a mes del periodo seleccionado """
     print(f"\n--- RESUMEN MENSUAL PARA {loc_sel.nombre.upper()} ---")
     for resumen_mes in lista_resumenes_mensuales:
         print(f"\n  Periodo {resumen_mes.etiqueta}:")
@@ -258,7 +258,7 @@ def consultar_historico(lista_municipios):
     for registro in lista_registros:
         resumen_total.agregar_registro(registro)
         
-""" Mostramos en pantalla los promedios generales del periodo consultado """
+    """ Mostramos en pantalla los promedios generales del periodo consultado """
     print(f"\n--- PROMEDIOS GENERALES DEL PERIODO ({resumen_total.etiqueta}) ---")
     print(f"  - Temperatura promedio: {resumen_total.promedio_temperatura():.2f} °C")
     print(f"  - Humedad relativa promedio: {resumen_total.promedio_humedad():.2f} %")
@@ -281,13 +281,13 @@ def consultar_historico(lista_municipios):
             if resumen_anio.promedio_humedad() > anio_humedo.promedio_humedad():
                 anio_humedo = resumen_anio
                 
-""" Mostramos en pantalla el año más caluroso, más fresco, más lluvioso y más húmedo del periodo consultado """
+        """ Mostramos en pantalla el año más caluroso, más fresco, más lluvioso y más húmedo del periodo consultado """
         print(f"\n  - Año más caluroso: {anio_caluroso.anio}")
         print(f"  - Año más fresco: {anio_fresco.anio}")
         print(f"  - Año con mayor precipitación: {anio_lluvioso.anio}")
         print(f"  - Año con mayor humedad relativa: {anio_humedo.anio}")
 
-""" Con matplotlib y los datos del periodo seleccionado, se generan cuatro graficos comparativos de la evolucion de cada magnitud por año """
+        """ Con matplotlib y los datos del periodo seleccionado, se generan cuatro graficos comparativos de la evolucion de cada magnitud por año """
         print("\nGenerando gráfico comparativo...")
         anios_lista = []
         temp_por_anio = []
